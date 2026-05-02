@@ -1,0 +1,74 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Surplus - BiteBack</title>
+    <link rel="stylesheet" href="list_surplus.css">
+</head>
+<body>  
+    <div class="header">
+        <div class="logo">
+            <img src="../logo.png" alt="BiteBack Logo" class="logo_img">
+            <a class="logo_name" href="index.html"><span style="color: black;">Bite</span><span
+                    style="color: green;">Back</span></a>
+
+        </div>
+        <div class="menu_toggle" onclick="toggleMenu()">☰</div>
+        <div class="nav" id="navMenu">
+            <a href="../index.html" class="nav1">Find Food</a>
+        </div>
+
+    </div>
+    <div class="content">
+        <h1>➕</h1>
+        <div class="form">
+
+            <h2 class="form_title">List Surplus Food</h2>
+            <p class="form_subtitle">Post fresh extra food for nearby buyers</p>
+            <form action="list_surplus_signin.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <input type="text" name="name" placeholder="lister name" required>
+                <input type="number" name="mobile_number" placeholder="Mobile Number" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                <button type="submit" class="submit_btn">List Surplus Food</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("active");
+}
+
+function validateForm() {
+    const password = document.querySelector('input[name="password"]').value;
+    const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
+    const mobileNumber = document.querySelector('input[name="mobile_number"]').value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return false;
+    }
+
+    const mobilePattern = /^[0-9]{10}$/;
+
+    if (!mobilePattern.test(mobileNumber)) {
+        alert("Enter valid 10-digit mobile number");
+        return false;
+    }
+
+    return true;
+}
+
+const signUpParams = new URLSearchParams(window.location.search);
+if (signUpParams.get('error') === 'password') {
+    alert('Passwords do not match.');
+}
+if (signUpParams.get('error') === 'mobile') {
+    alert('Please enter a valid 10-digit mobile number.');
+}
+if (signUpParams.get('error') === 'db') {
+    alert('Registration failed. Please try again.');
+}
+</script>
+</html>

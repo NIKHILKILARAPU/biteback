@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="list_surplus.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="../logo.png" alt="BiteBack Logo" class="logo_img">
+            <a class="logo_name" href="../index.html"><span style="color: black;">Bite</span><span
+                    style="color: green;">Back</span></a>
+
+        </div>
+        <div class="menu_toggle" onclick="toggleMenu()">☰</div>
+        <div class="nav" id="navMenu">
+            <a href="../find_food/find_food_page.php" class="nav1" onclick="findFood()">Find Food</a>
+            <a href="list_surplus.html" class="nav2">List Surplus</a>
+        </div>
+
+    </div>
+    <div class="content">
+        <h1>➕</h1>
+        <div class="form">
+
+            <h2 class="form_title">List Surplus Food</h2>
+            <p class="form_subtitle">Post fresh extra food for nearby buyers</p>
+            <form action="list_surplus.php" method="POST" enctype="multipart/form-data">
+
+                <input type="text" name="food_name" placeholder="Food Name" required>
+
+                <input type="text" name="quantity" placeholder="Quantity (eg. 10 plates)" required>
+
+                <input type="number" name="price" placeholder="Price per Plate" required>
+
+                <input type="text" name="location" id="address" placeholder="Pickup Location" required>
+
+                <label class="file_label">Upload Food Photo</label>
+                <input type="file" name="image" accept="image/*" required>
+
+                <label class="time_label">Pickup Time</label>
+                <input type="datetime-local" name="pickup_time" required>
+
+                <label class="time_label">Expiry Time</label>
+                <input type="datetime-local" name="expiry_time" required>
+
+                <textarea name="notes" placeholder="Extra Notes (optional)"></textarea>
+                <input type="hidden" name="latitude" id="lat">
+                <input type="hidden" name="longitude" id="lng">
+
+                <button type="button" onclick="get_cordinates()" class="submit_btn">Post Listing</button>
+
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer_container">
+
+            <div class="footer_brand">
+                <h2><span style="color: black;">Bite</span><span style="color: green;">Back</span></h2>
+                <p>Reducing food waste, one bite at a time.</p>
+            </div>
+
+            <div class="footer_links">
+                <h3>Quick Links</h3>
+                <a href="#">Find Food</a>
+                <a href="#">List Surplus</a>
+                <a href="#">How It Works</a>
+            </div>
+
+            <div class="footer_links">
+                <h3>Company</h3>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+
+            <div class="footer_social">
+                <h3>Follow Us</h3>
+                <p>🌐 Instagram</p>
+                <p>🐦 Twitter</p>
+                <p>📘 Facebook</p>
+            </div>
+
+        </div>
+
+        <div class="footer_bottom">
+            <p>© 2026 BiteBack. All rights reserved.</p>
+        </div>
+    </div>
+
+</body>
+<script>
+    function get_cordinates() {
+
+        let address = document.getElementById("address").value;
+
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+            .then(response => response.json())
+            .then(data => {
+
+                if (data.length > 0) {
+
+                    let lat = data[0].lat;
+                    let lon = data[0].lon;
+
+                    document.getElementById("lat").value = lat;
+                    document.getElementById("lng").value = lon;
+
+                    document.querySelector("form").submit();
+
+                } else {
+                    alert("Address not found");
+                }
+
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Error finding location");
+            });
+    }
+</script>
+<script>
+
+    function toggleMenu() {
+        document.getElementById("navMenu").classList.toggle("active");
+    }
+
+</script>
+ <script>
+        function findFood() {
+
+            let btn = document.querySelector(".food_btn");
+
+            if (navigator.geolocation) {
+
+                btn.innerHTML = "📍 Detecting Location...";
+                btn.disabled = true;
+
+                navigator.geolocation.getCurrentPosition(success, error);
+
+            } else {
+                alert("Geolocation not supported.");
+            }
+
+            function success(position) {
+
+                let lat = position.coords.latitude;
+                let lng = position.coords.longitude;
+
+                window.location.href =
+                    "../food.php?lat=" + lat + "&lng=" + lng;
+            }
+
+            function error() {
+                alert("Please allow location access.");
+
+                btn.innerHTML = "🔍︎ Find Food";
+                btn.disabled = false;
+            }
+        }
+    </script>
+
+
+</html>

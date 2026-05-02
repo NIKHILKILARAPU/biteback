@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Surplus - BiteBack</title>
+    <link rel="stylesheet" href="list_surplus_login.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="../logo.png" alt="BiteBack Logo" class="logo_img">
+            <a class="logo_name" href="index.html"><span style="color: black;">Bite</span><span
+                    style="color: green;">Back</span></a>
+
+        </div>
+        <div class="menu_toggle" onclick="toggleMenu()">☰</div>
+        <div class="nav" id="navMenu">
+            <a href="../index.html" class="nav1">Find Food</a>
+        </div>
+
+    </div>
+    <div class="content">
+        <h1>➕</h1>
+        <div class="form">
+            <h2 class="form_title">Please Log In to List Surplus Food</h2>
+            <p class="form_subtitle">Post fresh extra food for nearby buyers</p>
+            <form action="list_surplus_login.php" method="POST">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="submit_btn">Log In</button>
+                <p>new to <span style="color: black;">Bite</span><span style="color: green;">Back</span>? <a href="list_surplus_signin.html">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("active");
+}
+
+const loginParams = new URLSearchParams(window.location.search);
+if (loginParams.get('error') === 'invalid') {
+    alert('Invalid username or password.');
+}
+if (loginParams.get('registered') === '1') {
+    alert('Registration successful. Please log in.');
+}
+</script>
+</html>

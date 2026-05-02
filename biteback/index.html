@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiteBack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div class="logo">
+            <img src="logo.png" alt="BiteBack Logo" class="logo_img">
+
+            <a href="index.html" class="logo_name">
+                <span style="color:black;">Bite</span>
+                <span style="color:green;">Back</span>
+            </a>
+        </div>
+
+        <div class="menu_toggle" onclick="toggleMenu()">☰</div>
+
+        <div class="nav" id="navMenu">
+            <a href="customer_login.html" class="nav1" onclick="">Find Food</a>
+            <a href="list_surplus/list_surplus_login.html" class="nav2">List Surplus</a>
+        </div>
+
+    </div>
+
+
+    <!-- HERO SECTION -->
+    <div class="content">
+
+        <h4 class="tag_line">🌟 Fresh, Unserved food only</h4>
+
+        <h1 class="title">
+            <span>Bite</span>
+            <span style="color:green;">Back</span>
+        </h1>
+
+        <p class="description">
+            Get premium event food at up to 70% off.
+            Hosts list their surplus, you reserve nearby —
+            everyone wins.
+        </p>
+
+        <button class="food_btn" onclick="window.location.href='customer_login.html'">
+            🔍︎ Find Food
+        </button>
+
+        <button class="surplus_btn"
+            onclick="window.location.href='list_surplus/list_surplus_login.html'">
+            ➕ List Surplus
+        </button>
+
+
+        <!-- TRUST CARDS -->
+        <div class="cards">
+
+            <div class="card">
+                <div class="sym"><h3>🌿</h3></div>
+                <div class="card_content">
+                    <h2>Fresh & Unserved</h2>
+                    <p>Only fresh, unserved food from events is listed.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="sym"><h3>✪</h3></div>
+                <div class="card_content">
+                    <h2>Verified Listings</h2>
+                    <p>Hosts and caterers we trust.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="sym"><h3>✦</h3></div>
+                <div class="card_content">
+                    <h2>Up to 70% Off</h2>
+                    <p>Premium meals at student-friendly prices.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HOW IT WORKS -->
+    <div class="how_it_works">
+
+        <h1 class="hiw_title">How It Works</h1>
+        <p class="hiw_des">3 steps, zero waste</p>
+
+        <div class="cards">
+
+            <div class="card1">
+                <h1 class="count">01</h1>
+                <h2 class="card1_head">Surplus Food Listed</h2>
+                <p class="card1_des">
+                    Event hosts and caterers post fresh extras.
+                </p>
+            </div>
+
+            <div class="card1">
+                <h1 class="count">02</h1>
+                <h2 class="card1_head">Users Find Nearby Deals</h2>
+                <p class="card1_des">
+                    We detect your location and show nearby food.
+                </p>
+            </div>
+
+            <div class="card1">
+                <h1 class="count">03</h1>
+                <h2 class="card1_head">Reserve & Pickup</h2>
+                <p class="card1_des">
+                    Reserve quickly before it sells out.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <div class="footer">
+
+        <div class="footer_container">
+
+            <div class="footer_brand">
+                <h2>
+                    <span style="color:black;">Bite</span>
+                    <span style="color:green;">Back</span>
+                </h2>
+                <p>Reducing food waste, one bite at a time.</p>
+            </div>
+
+            <div class="footer_links">
+                <h3>Quick Links</h3>
+                <a href="customer_login.html">Find Food</a>
+                <a href="list_surplus/list_surplus_login.html">List Surplus</a>
+                <a href="#">How It Works</a>
+            </div>
+
+            <div class="footer_links">
+                <h3>Company</h3>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+
+            <div class="footer_social">
+                <h3>Follow Us</h3>
+                <p>🌐 Instagram</p>
+                <p>🐦 Twitter</p>
+                <p>📘 Facebook</p>
+            </div>
+
+        </div>
+
+        <div class="footer_bottom">
+            <p>© 2026 BiteBack. All rights reserved.</p>
+        </div>
+
+    </div>
+
+
+    <!-- MOBILE MENU -->
+    <script>
+        function toggleMenu() {
+            document.getElementById("navMenu").classList.toggle("active");
+        }
+    </script>
+
+
+    <!-- LOCATION DETECT -->
+    <script>
+        function findFood() {
+
+            let btn = document.querySelector(".food_btn");
+
+            if (navigator.geolocation) {
+
+                btn.innerHTML = "📍 Detecting Location...";
+                btn.disabled = true;
+
+                navigator.geolocation.getCurrentPosition(success, error);
+
+            } else {
+                alert("Geolocation not supported.");
+            }
+
+            function success(position) {
+
+                let lat = position.coords.latitude;
+                let lng = position.coords.longitude;
+
+                window.location.href =
+                    "food.php?lat=" + lat + "&lng=" + lng;
+            }
+
+            function error() {
+                alert("Please allow location access.");
+
+                btn.innerHTML = "🔍︎ Find Food";
+                btn.disabled = false;
+            }
+        }
+    </script>
+
+</body>
+</html>

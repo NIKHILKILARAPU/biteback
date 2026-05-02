@@ -1,0 +1,96 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="admin.css">
+<title>Admin Dashboard</title>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">
+        <img src="../logo.png" class="logo_img">
+        <a href="../index.html" class="logo_name">
+            <span style="color:black;">Bite</span>
+            <span style="color:green;">Back</span>
+        </a>
+    </div>
+
+    <div class="menu_toggle" onclick="toggleMenu()">☰</div>
+
+    <div class="nav" id="navMenu">
+        <a href="admin.html" class="nav1">Applicants</a>
+        <a href="surplus.html" class="nav2">Surplus</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>Surplus</h1>
+
+    <table class="surplus_table applicants_table" id="surplusTable">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Action</th>
+        </tr>
+    </table>
+</div>
+
+<script>
+function toggleMenu(){
+    document.getElementById("navMenu").classList.toggle("active");
+}
+</script>
+
+<script>
+fetch("surplus.php")
+.then(response => response.json())
+.then(data => {
+
+    const table = document.getElementById("surplusTable");
+
+    data.forEach(user => {
+
+        table.innerHTML += `
+        <tr data-id="${user.id}">
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.mobile}</td>
+            <td>
+                <button class="delete_btn" onclick="deleteSurplus(${user.id})">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        `;
+
+    });
+
+});
+</script>
+
+<script>
+function deleteSurplus(id){
+
+    if(confirm("Delete this surplus account?")){
+
+        fetch("delete.php?id=" + id)
+        .then(response => response.json())
+        .then(data => {
+
+            alert(data.message);
+
+            if(data.status == "success"){
+                document.querySelector(`tr[data-id="${id}"]`).remove();
+            }
+
+        });
+
+    }
+}
+</script>
+
+</body>
+</html>
